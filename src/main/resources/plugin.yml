@@ -1,0 +1,10 @@
+name: JustTimingCraft
+version: '${project.version}'
+main: com.kamesuta.justtimingcraft.JustTimingCraft
+api-version: 1.16
+authors: [ Kamesuta ]
+
+permissions:
+  justtimingcraft.craft:
+    description: "招集をかけ、みんなでクラフトすることができます。"
+    default: false
