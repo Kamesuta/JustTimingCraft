@@ -84,6 +84,8 @@ class JustTimingCraft : JavaPlugin(), Listener {
             }
             // リーダーのチェックマーク
             player.setCheckmark(true)
+            // リーダーを追加
+            craftingPlayerList.add(player.uniqueId)
             // タイマーをセット
             runLater(config.craftTimeLimit.longValue() * 20) {
                 craftAllowed = false
@@ -100,6 +102,22 @@ class JustTimingCraft : JavaPlugin(), Listener {
                         .append(Component.text("の50人クラフト失敗！ 戦犯はTABで確認できます"))
                         .build()
                 )
+                // 戦犯は爆死
+                if (config.trollToDeath.value()) {
+                    server.onlinePlayers.forEach {
+                        // クラフトしていない人は爆死
+                        if (!craftingPlayerList.contains(it.uniqueId)) {
+                            // 爆死
+                            it.world.createExplosion(it.location, 3f, false, false)
+                            // スペクテイターにする
+                            it.gameMode = GameMode.SPECTATOR
+                            // デスメッセージを送信
+                            it.sendMessage(
+                                Component.text().append(it.displayName()).append(Component.text("は50人クラフトの一員ではなかった"))
+                            )
+                        }
+                    }
+                }
                 reset()
             }
             event.isCancelled = true
@@ -207,8 +225,7 @@ class JustTimingCraft : JavaPlugin(), Listener {
                 return
             }
         }
-        val name = customName() ?: Component.text(name)
-        playerListName(Component.text().append(status).append(name).build())
+        playerListName(Component.text().append(status).append(displayName()).build())
     }
 
     /**
