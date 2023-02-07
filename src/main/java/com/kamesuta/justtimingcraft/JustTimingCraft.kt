@@ -1,5 +1,8 @@
 package com.kamesuta.justtimingcraft
 
+import net.kunmc.lab.commandlib.Command
+import net.kunmc.lab.commandlib.CommandLib
+import net.kunmc.lab.configlib.ConfigCommandBuilder
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import net.kyori.adventure.title.Title
@@ -21,8 +24,19 @@ class JustTimingCraft : JavaPlugin(), Listener {
     private var craftAllowed = false
     private var craftingTask: BukkitTask? = null
 
+    private lateinit var config: Config
+
     override fun onEnable() {
         // Plugin startup logic
+        instance = this
+        config = Config(this)
+        // コンフィグ
+        val configCommand = ConfigCommandBuilder(config).build()
+        CommandLib.register(this, object : Command("justtiming") {
+            init {
+                addChildren(configCommand)
+            }
+        })
         // イベントリスナー
         server.pluginManager.registerEvents(this, this)
     }
@@ -71,7 +85,7 @@ class JustTimingCraft : JavaPlugin(), Listener {
             // リーダーのチェックマーク
             player.setCheckmark(true)
             // タイマーをセット
-            runLater(5 * 20) {
+            runLater(config.craftTimeLimit.longValue() * 20) {
                 craftAllowed = false
                 // タイマーが終わったらタイトルで全員にアナウンス
                 sendTitle(
@@ -123,13 +137,13 @@ class JustTimingCraft : JavaPlugin(), Listener {
                 )
                 sendChat(
                     Component.text()
-                        .append(Component.text("50人クラフト成功！今から10秒間だけ"))
+                        .append(Component.text("50人クラフト成功！今から${config.craftAllowTime.longValue()}秒間だけ"))
                         .append(event.recipe.result.displayName().color(NamedTextColor.GREEN))
                         .append(Component.text("を好きなだけクラフトできます"))
                         .build()
                 )
                 // タイマーをセット
-                runLater(10 * 20) {
+                runLater(config.craftAllowTime.longValue() * 20) {
                     // ステートをリセット
                     reset()
                     // チェックマークを消す
@@ -214,5 +228,10 @@ class JustTimingCraft : JavaPlugin(), Listener {
         craftingItem = null
         craftingPlayerList.clear()
         craftAllowed = false
+    }
+
+    companion object {
+        /** インスタンス */
+        lateinit var instance: JustTimingCraft
     }
 }

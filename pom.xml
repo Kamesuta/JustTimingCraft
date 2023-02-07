@@ -126,5 +126,15 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.TeamKun.CommandLib</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>0.12.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.TeamKun.ConfigLib</groupId>
+            <artifactId>bukkit</artifactId>
+            <version>0.16.2</version>
+        </dependency>
     </dependencies>
 </project>
