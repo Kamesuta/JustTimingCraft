@@ -1,0 +1,8 @@
+# 締め切り時間（秒）
+craft-time-limit: 5
+
+# クラフト許可時間（秒）
+craft-allow-time: 10
+
+# 戦犯を爆死させるかどうか
+troll-to-death: false 

@@ -1,17 +1,29 @@
 package com.kamesuta.justtimingcraft
 
-import net.kunmc.lab.configlib.BaseConfig
-import net.kunmc.lab.configlib.value.BooleanValue
-import net.kunmc.lab.configlib.value.IntegerValue
+import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.Plugin
 
-class Config(plugin: Plugin) : BaseConfig(plugin) {
+class Config(private val plugin: Plugin) {
+    private var config: FileConfiguration = plugin.config
+
     /** 締め切り時間 */
-    val craftTimeLimit = IntegerValue(5)
+    val craftTimeLimit: Int
+        get() = config.getInt("craft-time-limit", 5)
 
     /** クラフト許可時間 */
-    val craftAllowTime = IntegerValue(10)
+    val craftAllowTime: Int
+        get() = config.getInt("craft-allow-time", 10)
 
     /** 戦犯を爆死させるかどうか */
-    val trollToDeath = BooleanValue(false)
+    val trollToDeath: Boolean
+        get() = config.getBoolean("troll-to-death", false)
+
+    init {
+        plugin.saveDefaultConfig()
+    }
+
+    fun reload() {
+        plugin.reloadConfig()
+        config = plugin.config
+    }
 }

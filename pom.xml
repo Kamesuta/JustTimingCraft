@@ -6,7 +6,7 @@
 
     <groupId>com.kamesuta</groupId>
     <artifactId>just-timing-craft</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>JustTimingCraft</name>
@@ -110,9 +110,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.destroystokyo.paper</groupId>
+            <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
-            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <version>1.21.1-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -125,16 +125,6 @@
             <artifactId>kotlin-test</artifactId>
             <version>${kotlin.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.github.TeamKun.CommandLib</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>0.12.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.TeamKun.ConfigLib</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>0.16.2</version>
         </dependency>
     </dependencies>
 </project>
